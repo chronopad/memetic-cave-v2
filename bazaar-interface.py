@@ -3,6 +3,7 @@ import os
 import subprocess
 from tqdm import trange
 import sys
+from src.malconv_nn import malconv
 
 TYPE = "exe"
 DOWNLOAD_LIMIT = 10
@@ -61,8 +62,17 @@ def extract_sample(sha256):
         check=False,
     )
 
+def filter_sample(binary_hash):
+    predict_score = model.predict(f"{OUTPUT_DIR}/{binary_hash}.exe")
+    if predict_score < 0.5:
+        os.remove(f"{OUTPUT_DIR}/{binary_hash}.exe")
+
+
 if sys.argv[1]:
     DOWNLOAD_LIMIT = int(sys.argv[1])
+
+model = malconv("src/malconv.h5")
+
 
 hashes = get_hashes()
 print("Found hashes!")
@@ -75,6 +85,7 @@ print(f"Wrote hashes to {HASH_FILE}")
 for i in trange(len(hashes)):
     download_sample(hashes[i])
     extract_sample(hashes[i])
+    filter_sample(hashes[i])
     os.remove(hashes[i])
 
 os.remove(HASH_FILE)
