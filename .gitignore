@@ -3,4 +3,6 @@ patched/
 backup/
 
 src/malconv.h5
+src/__pycache__/
+src/stats.json
 weight-ember.txt
