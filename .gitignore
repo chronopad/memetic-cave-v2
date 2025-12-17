@@ -1,1 +1,5 @@
+malwares/
+patched/
+
 src/malconv.h5
+weight-ember.txt
