@@ -456,7 +456,7 @@ class report_json_class():
 
 
 class DEAP_implementation():
-    def __init__(self, binary, spaces, NN, CXPB=0.6, MUTPBI=0.1, MUTPBII=0.1, mutation=2):
+    def __init__(self, binary, spaces, NN, CXPB=0.6, MUTPBI=0.1, MUTPBII=0.1, mutation=2, LOCAL_PB=0.3, LOCAL_BUDGET=5):
         self.binary = binary
         self.spaces = spaces
         self.NN = NN
@@ -471,6 +471,8 @@ class DEAP_implementation():
         self.MUTPBII = MUTPBII
         self.cpu_time = time.perf_counter()
         self.mutation = mutation
+        self.LOCAL_PB = LOCAL_PB
+        self.LOCAL_BUDGET = LOCAL_BUDGET
 
     def register_tools(self):
         length_individual = self.size_array_of_spaces()
@@ -547,13 +549,21 @@ class DEAP_implementation():
                 offspring_mut.append(mutant)
             logging.debug("Done mutation")
 
+            # MODIFIED
             offspring = list(map(self.toolbox.clone, offspring_mut))
+
+            elite_ls = tools.selBest(offspring, max(1, int(0.1 * len(offspring))))
+            for i, ind in enumerate(elite_ls):
+                if random.random() < self.LOCAL_PB:
+                    improved = self.local_search(ind)
+                    offspring[offspring.index(ind)] = improved 
 
             invalid_ind = [ind for ind in offspring if not ind.fitness.valid]
             fitnesses = map(self.toolbox.evaluate, invalid_ind)
             for ind, fit in zip(invalid_ind, fitnesses):
-                ind.fitness.values = fit
+                ind.fitness.values = fit           
             logging.debug("Reevaluated fitnesses")
+            # MODIFIED
 
             pop = tools.selBest(offspring, population_size - 1)
             for ind in tools.selBest(elitism_group, 1):
@@ -700,6 +710,32 @@ class DEAP_implementation():
     def restore_best_one(self):
         self.write_on_spaces_mmap(self.best_individual)
 
+    def local_search(self, individual):
+        """
+        Memetic local search: greedy hill climbing using existing mutation operator.
+        Size-preserving and black-box safe.
+        """
+        best = self.toolbox.clone(individual)
+        best_fit = best.fitness.values[0]
+
+        for _ in range(self.LOCAL_BUDGET):
+            candidate = self.toolbox.clone(best)
+            candidate = self.toolbox.mutate(candidate)
+            del candidate.fitness.values
+
+            fit = self.toolbox.evaluate(candidate)[0]
+            candidate.fitness.values = (fit,)
+
+            if fit > best_fit:
+                best, best_fit = candidate, fit
+
+                # early stop if evasive
+                if self.undetected:
+                    break
+
+        return best
+
+
 
 def main(PATH, binary_name, nn, args):
     try:
@@ -823,6 +859,7 @@ def base_test(test, configuration, neural_network):
 def use_configuration(configuration):
     # args.path = configuration['path']
     # args.output = configuration['output']
+    args.binary = configuration['binary']
     args.statistics_dump = configuration['statistics_dump']
     args.neural_network = configuration['neural_network']
     args.cross = configuration['cross']
@@ -837,6 +874,7 @@ if __name__ == '__main__':
     configuration = dict()
     # configuration['path'] = "../ma_dir/"
     # configuration['output'] = "../patched/"
+    configuration['binary'] = sys.argv[1]
     configuration['statistics_dump'] = "stats.json"
     configuration['neural_network'] = "malconv.h5"
     configuration['cross'] = 4

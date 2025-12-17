@@ -8,6 +8,13 @@ if len(sys.argv) == 2:
     sha256 = sys.argv[1]
     prediction = model.predict(f"{MALWARE_DIR}/{sha256}.exe")
     print(f"{sha256}: {prediction}")
+
+elif len(sys.argv) == 3:
+    sha256 = sys.argv[1]
+    malware_dir = sys.argv[2]
+    prediction = model.predict(f"{malware_dir}/{sha256}.exe")
+    print(f"{sha256}: {prediction}")
+
 # else:
 #     files = [f for f in os.listdir(MALWARE_DIR) if f.endswith(".exe")]
 #     for filename in files:
