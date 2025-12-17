@@ -665,6 +665,7 @@ class DEAP_implementation():
         self.write_on_spaces_mmap(individual)
         pred = self.NN.predict(self.binary)
         if pred < self.best_pred:
+            print(f"{pred}")
             self.best_pred = pred
             self.save_best_one(individual)
             if self.best_pred < 0.5:
@@ -820,6 +821,7 @@ def base_test(test, configuration, neural_network):
 
 def use_configuration(configuration):
     args.path = configuration['path']
+    # args.output = configuration['output']
     args.statistics_dump = configuration['statistics_dump']
     args.neural_network = configuration['neural_network']
     args.cross = configuration['cross']
@@ -832,7 +834,8 @@ def use_configuration(configuration):
 
 if __name__ == '__main__':
     configuration = dict()
-    configuration['path'] = "/home/yuste/repos/samples_v2/revision_2/test_public_code (copy)"
+    configuration['path'] = "../malwares/"
+    # configuration['output'] = "../patched/"
     configuration['statistics_dump'] = "stats.json"
     configuration['neural_network'] = "malconv.h5"
     configuration['cross'] = 4
