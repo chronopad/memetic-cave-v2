@@ -1,26 +1,34 @@
 import os 
 import sys 
+import shutil
+from src.malconv_nn import malconv
+from hashlib import sha256
 
-sha256 = sys.argv[1]
-OG_DIR = "malwares/"
-GA_DIR = "ga_dir/"
-MA_DIR = "ma_dir/"
+OG_DIR = "malwares"
+GA_DIR = "ga_dir"
+MA_DIR = "ma_dir"
 
-os.system(f"cp {OG_DIR}/{sha256}.exe {GA_DIR}/{sha256}.exe")
-os.system(f"cp {OG_DIR}/{sha256}.exe {MA_DIR}/{sha256}.exe")
+if len(sys.argv) == 1:  
+    for f in os.listdir(OG_DIR):
+        src_path = os.path.join(OG_DIR, f)
+        if os.path.isfile(src_path) and f.lower().endswith(".exe"):
+            shutil.copy(src_path, GA_DIR)
+            shutil.copy(src_path, MA_DIR)
 
-os.system(f"cd src; python3 original.py -b {sha256}.exe -p ../{GA_DIR}")
-os.system(f"cd src; python3 memetic-cave.py -b {sha256}.exe -p ../{MA_DIR}")
+    os.system(f"cd src; python3 original.py -p ../{GA_DIR}")
+    os.system(f"cd src; python3 memetic-cave.py -p ../{MA_DIR}")
 
-print()
-print("==== Checksums ====")
-print(f"SHA256: {sha256}")
-print("OG:", os.popen(f"sha256sum {OG_DIR}/{sha256}.exe").read())
-print("GA:", os.popen(f"sha256sum {GA_DIR}/{sha256}.exe").read())
-print("MA:", os.popen(f"sha256sum {MA_DIR}/{sha256}.exe").read())
+files = [f for f in os.listdir(OG_DIR) if os.path.isfile(os.path.join(OG_DIR, f)) and f.lower().endswith(".exe")]
+model = malconv("src/malconv.h5")
 
-print()
-print("==== Predicts ====")
-print("OG:", os.popen(f"python3 h5-interface.py {sha256} malwares").read())
-print("GA:", os.popen(f"python3 h5-interface.py {sha256} ga_dir").read())
-print("MA:", os.popen(f"python3 h5-interface.py {sha256} ma_dir").read())
+print("\n==== Predictions ====\n")
+for f in files:
+    pred_og = model.predict(f"{OG_DIR}/{f}")
+    pred_ga = model.predict(f"{GA_DIR}/{f}")
+    pred_ma = model.predict(f"{MA_DIR}/{f}")
+
+    print(f"File: {f}")
+    print(f"  Original: {pred_og:.8f} -", sha256(open(f"{OG_DIR}/{f}", "rb").read()).hexdigest())
+    print(f"  GA:       {pred_ga:.8f} -", sha256(open(f"{GA_DIR}/{f}", "rb").read()).hexdigest())
+    print(f"  MA:       {pred_ma:.8f} -", sha256(open(f"{MA_DIR}/{f}", "rb").read()).hexdigest())
+    print("-" * 30)
