@@ -800,19 +800,15 @@ def base_test(test, configuration, neural_network):
             if args.path[-1:] != '/':
                 args.path += '/'
             PATH = args.path
-            files = os.listdir(PATH)
-            i = 0
-            for f in files:
-                i = i + 1
-                print(f"Processing file {i}/{len(files)} ({(i / len(files)) * 100} %)")
-                try:
-                    if f not in report_json.already_taken_files:
-                        test(PATH, f, n_network, args)
-                    else:
-                        logging.info('Skipping file bc of restored checkpoint [' + str(f) + ']')
-                except Exception as e:
-                    logging.exception('An exception occurred while calling main with file ' + str(f))
-                    logging.error(e, exc_info=True)
+            f = args.binary
+            try:
+                if f not in report_json.already_taken_files:
+                    test(PATH, f, n_network, args)
+                else:
+                    logging.info('Skipping file bc of restored checkpoint [' + str(f) + ']')
+            except Exception as e:
+                logging.exception('An exception occurred while calling main with file ' + str(f))
+                logging.error(e, exc_info=True)
 
             report_json.dump_to_file()
 
@@ -823,6 +819,7 @@ def base_test(test, configuration, neural_network):
 def use_configuration(configuration):
     # args.path = configuration['path']
     # args.output = configuration['output']
+    # args.binary = configuration['binary']
     args.statistics_dump = configuration['statistics_dump']
     args.neural_network = configuration['neural_network']
     args.cross = configuration['cross']
@@ -837,6 +834,7 @@ if __name__ == '__main__':
     configuration = dict()
     # configuration['path'] = "../ma_dir/"
     # configuration['output'] = "../patched/"
+    # configuration['binary'] = sys.argv[1]
     configuration['statistics_dump'] = "stats.json"
     configuration['neural_network'] = "malconv.h5"
     configuration['cross'] = 4
@@ -845,4 +843,3 @@ if __name__ == '__main__':
     configuration['mutation_II'] = 0.1
     configuration['mutation_method'] = 2
     configuration['section_expand'] = -1
-    base_test(main, configuration, malconv)

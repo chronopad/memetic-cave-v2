@@ -12,7 +12,7 @@ if len(sys.argv) == 2:
 elif len(sys.argv) == 3:
     sha256 = sys.argv[1]
     malware_dir = sys.argv[2]
-    prediction = model.predict(f"{malware_dir}/{sha256}.exe")
+    prediction = model.predict(f"{malware_dir}/{sha256}")
     print(f"{sha256}: {prediction}")
 
 # else:

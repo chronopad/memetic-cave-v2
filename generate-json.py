@@ -5,28 +5,30 @@ import json
 import signal
 from src.malconv_nn import malconv
 from hashlib import sha256
+from tqdm import trange
 
-OG_DIR = "malwares"
-GA_DIR = "ga_dir"
-MA_DIR = "ma_dir"
+OG_DIR = "malwares_tmp"
+GA_DIR = "ga_dir_tmp"
+MA_DIR = "ma_dir_tmp"
 
-for f in os.listdir(OG_DIR):
-    src_path = os.path.join(OG_DIR, f)
+files = os.listdir(OG_DIR)
+model = malconv("src/malconv.h5")
+
+for i in trange(len(files)):
+    src_path = os.path.join(OG_DIR, files[i])
     if os.path.isfile(src_path):
         shutil.copy(src_path, GA_DIR)
         shutil.copy(src_path, MA_DIR)
+    print("[+] Running GA...")
+    os.system(f"cd src; python original.py -b {files[i]} -p ../{GA_DIR}")
 
-print("[+] Running GA...")
-os.system(f"cd src; python3 original.py -p ../{GA_DIR}")
+    print("[+] Running MA...")
+    os.system(f"cd src; python memetic-cave.py -b {files[i]} -p ../{MA_DIR}")
 
-print("[+] Running MA...")
-os.system(f"cd src; python3 memetic-cave.py -p ../{MA_DIR}")
-
-files = [f for f in os.listdir(OG_DIR) if os.path.isfile(os.path.join(OG_DIR, f))]
-model = malconv("src/malconv.h5")
+    # files = [f for f in os.listdir(OG_DIR) if os.path.isfile(os.path.join(OG_DIR, f))]
 
 results = []
-for f in files[:1]:
+for f in files:
     pred_og = model.predict(f"{OG_DIR}/{f}")
     pred_ga = model.predict(f"{GA_DIR}/{f}")
     pred_ma = model.predict(f"{MA_DIR}/{f}")
