@@ -843,3 +843,4 @@ if __name__ == '__main__':
     configuration['mutation_II'] = 0.1
     configuration['mutation_method'] = 2
     configuration['section_expand'] = -1
+    base_test(main, configuration, malconv)

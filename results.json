@@ -2,7 +2,156 @@
   {
     "file": "6e64fe3c924dd5b36788fbcf69aa7ff9c5deb0db82baae3f73cfdaa0cdf71b3f",
     "original": 0.9937461614608765,
-    "genetic": 0.9937461614608765,
-    "memetic": 0.9937461614608765
+    "genetic": {
+      "probability": 0.4937805235385895,
+      "time": 41.338966846466064
+    },
+    "memetic": {
+      "probability": 0.4368246793746948,
+      "time": 49.290069341659546
+    }
   }
-]
+]{
+  "file": "9ad6a810d9c95540d8b60b2a0478e2d677367819a68aab2cd35c67e0d213c591",
+  "original": 0.9998769760131836,
+  "genetic": {
+    "probability": 0.448417067527771,
+    "time": 41.046950578689575
+  },
+  "memetic": {
+    "probability": 0.46634140610694885,
+    "time": 70.2940423488617
+  }
+}{
+  "file": "2505cfb03a28f7248df3d089f20cd41d2d7167528f4f83656ffb8f1ab164405e",
+  "original": 0.9231221675872803,
+  "genetic": {
+    "probability": 0.4591473937034607,
+    "time": 41.76393795013428
+  },
+  "memetic": {
+    "probability": 0.3600200414657593,
+    "time": 22.083917140960693
+  }
+}{
+  "file": "950762b7ac86ce9c060e6bfa54fead53434b2a0f083a0355f2354201decd8c6a",
+  "original": 0.9999997615814209,
+  "genetic": {
+    "probability": 0.46601390838623047,
+    "time": 39.43994951248169
+  },
+  "memetic": {
+    "probability": 0.45433199405670166,
+    "time": 33.70536661148071
+  }
+}{
+  "file": "34f59108399594760925b65f77e9b9cc864317dbd94d95964489a0c9259094e2",
+  "original": 0.9629830718040466,
+  "genetic": {
+    "probability": 0.47845736145973206,
+    "time": 29.00251269340515
+  },
+  "memetic": {
+    "probability": 0.36002445220947266,
+    "time": 17.457071781158447
+  }
+}{
+  "file": "0a1bd66ec24f9b2f773199c827b4cd1de7aac8bc5dd38ca26a663806c781ddf0",
+  "original": 0.8968368172645569,
+  "genetic": {
+    "probability": 0.3510403633117676,
+    "time": 9.91579794883728
+  },
+  "memetic": {
+    "probability": 0.33431676030158997,
+    "time": 9.523005962371826
+  }
+}{
+  "file": "32c7e1b15329c9802aec16c7e43b6aefbad67f7ceae7f0ba5071d4ca20de6f03",
+  "original": 0.9999996423721313,
+  "genetic": {
+    "probability": 0.9999996423721313,
+    "time": 4.8176350593566895
+  },
+  "memetic": {
+    "probability": 0.9999996423721313,
+    "time": 4.652486085891724
+  }
+}{
+  "file": "b0682f26761abbe0c04d2194f04ba263535f4ce1f2127e809efd2519e529c6fe",
+  "original": 0.8930776715278625,
+  "genetic": {
+    "probability": 0.4177844822406769,
+    "time": 44.88734674453735
+  },
+  "memetic": {
+    "probability": 0.4770556688308716,
+    "time": 63.32751727104187
+  }
+}{
+  "file": "18eb20ffc064fadd77d8e38b0c7fedd9817f7d4daef976c2c829b309386e48f3",
+  "original": 0.9999973773956299,
+  "genetic": {
+    "probability": 0.4338831305503845,
+    "time": 176.0653040409088
+  },
+  "memetic": {
+    "probability": 0.46405911445617676,
+    "time": 96.19466376304626
+  }
+}{
+  "file": "041337bcedce8a3f52b558b1d279f43338a133430d58b7ce1a74137c1f3bec37",
+  "original": 0.9996503591537476,
+  "genetic": {
+    "probability": 0.2989260256290436,
+    "time": 7.752932548522949
+  },
+  "memetic": {
+    "probability": 0.32626038789749146,
+    "time": 7.837071180343628
+  }
+}{
+  "file": "46f26f88649609f48e5eefc6ca505b84d8976d9dbf3124cc0ce4d6a68e8edcf9",
+  "original": 0.9978766441345215,
+  "genetic": {
+    "probability": 0.04722782224416733,
+    "time": 8.481303930282593
+  },
+  "memetic": {
+    "probability": 0.05252259969711304,
+    "time": 8.305678606033325
+  }
+}{
+  "file": "7dd4a25805a921cd651bc21df1a526be9b4d7f23022e1793bbd7b3f4648ec5ef",
+  "original": 0.9994813799858093,
+  "genetic": {
+    "probability": 0.9994813799858093,
+    "time": 4.3403730392456055
+  },
+  "memetic": {
+    "probability": 0.9994813799858093,
+    "time": 4.313380479812622
+  }
+}{
+  "file": "6da36901b2ae0e86e2c24076ca954f280341a9afbecd33741a187ecfc33290d6",
+  "original": 0.9974842071533203,
+  "genetic": {
+    "probability": 0.00011584889580262825,
+    "time": 9.07485818862915
+  },
+  "memetic": {
+    "probability": 0.00028621809906326234,
+    "time": 8.35895323753357
+  }
+}{
+  "file": "6aedcb17f4620824894d4d5a8330d8f81ebf8c4f0d691da782d7bbe1578260c0",
+  "original": 0.9944779872894287,
+  "genetic": {
+    "probability": 0.9944779872894287,
+    "time": 4.207178831100464
+  },
+  "memetic": {
+    "probability": 0.9944779872894287,
+    "time": 4.612105846405029
+  }
+}
